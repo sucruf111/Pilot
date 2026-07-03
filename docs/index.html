@@ -184,8 +184,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap">
     <div class="kicker">The pipeline</div>
     <h2>Four phases, two human gates</h2>
-    <p class="lede">All state lives in files on disk — close the session anytime, <code>/pilot</code> resumes exactly where it stopped.</p>
+    <p class="lede">All state lives in files on disk — close the session anytime, <code>/pilot</code> resumes exactly where it stopped. <strong>Works on new and existing projects:</strong> for an existing repo, an adoption phase audits the codebase, derives the design system and tokens from what's actually there, and grandfathers old violations — old code never blocks new work.</p>
     <div class="phases">
+      <div class="phase">
+        <div class="num">A</div>
+        <div>
+          <h3>Adopt an existing project <span class="gate">optional</span></h3>
+          <p>For repos that already have code: Fable surveys the stack, reverse-engineers the briefs and de-facto design tokens from the dominant patterns, seeds the lessons file with the house style, and builds the roadmap from where the project stands.</p>
+          <span class="artifact">→ briefs, tokens &amp; roadmap derived from the codebase</span>
+        </div>
+      </div>
       <div class="phase">
         <div class="num">0</div>
         <div>
@@ -292,6 +300,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <span class="c"># then, inside a Claude Code session in your project:</span>
 <span class="p">&gt;</span> /pilot
+</pre>
+    <h2 style="margin-top:48px">Pick your models</h2>
+    <p class="lede" style="margin-bottom:20px"><code>docs/pilot/config.json</code> controls who does what, at what depth — <strong>Fable 5</strong> for the hardest projects or <strong>Opus 4.8</strong> at half the price as lead, a cheaper model for routine diff reviews (blockers escalate back to the lead), and the Codex model/effort used for every dispatch.</p>
+<pre class="shell">
+{
+  <span class="c">"lead"</span>:   { "model": <span class="p">"fable-5"</span>,  "planning_effort": <span class="p">"xhigh"</span>, "review_effort": <span class="p">"high"</span> },
+  <span class="c">"review"</span>: { "model": <span class="p">"inherit"</span>,  "escalate_blockers_to_lead": true },
+  <span class="c">"codex"</span>:  { "model": <span class="p">"gpt-5.5"</span>,  "reasoning_effort": <span class="p">"xhigh"</span> }
+}
 </pre>
     <h2 style="margin-top:48px">Commands</h2>
     <table>

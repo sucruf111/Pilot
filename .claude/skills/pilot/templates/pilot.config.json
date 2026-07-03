@@ -1,0 +1,16 @@
+{
+  "lead": {
+    "model": "fable-5",
+    "planning_effort": "xhigh",
+    "review_effort": "high"
+  },
+  "review": {
+    "model": "inherit",
+    "escalate_blockers_to_lead": true
+  },
+  "codex": {
+    "model": "gpt-5.5",
+    "reasoning_effort": "xhigh",
+    "extra_args": []
+  }
+}

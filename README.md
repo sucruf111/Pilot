@@ -40,7 +40,13 @@ Then, inside a Claude Code session in the project, run `/pilot`.
 
 ## Pipeline at a glance
 
+Works on **new and existing projects** — for an existing repo, Phase A audits the
+codebase, reverse-engineers the design system and tokens from what's actually there,
+grandfathers old violations (the gate only lints changed files), and builds the
+roadmap from where the project stands.
+
 ```
+Phase A  (existing repos) audit & adopt     → briefs/tokens derived from the codebase
 Phase 0  goal iteration with you            → docs/PRODUCT_BRIEF.md
 Phase 1  design brief + Codex concepts      → docs/DESIGN_BRIEF.md   [human approval gate]
 Phase 2  design system, tokens, roadmap     → DESIGN_SYSTEM.md, design-tokens.json, ROADMAP.md
@@ -51,6 +57,25 @@ Phase 3  autopilot loop, per task:
 
 Commands: `/pilot` (resume/run) · `/pilot status` · `/pilot next` (one cycle) ·
 `/pilot estimate` (Fable-cost projection from the roadmap).
+
+## Model & effort configuration
+
+`docs/pilot/config.json` (created at preflight) controls who does what, at what depth:
+
+```json
+{
+  "lead":   { "model": "fable-5", "planning_effort": "xhigh", "review_effort": "high" },
+  "review": { "model": "inherit", "escalate_blockers_to_lead": true },
+  "codex":  { "model": "gpt-5.5", "reasoning_effort": "xhigh", "extra_args": [] }
+}
+```
+
+- **lead.model** — `fable-5` for the hardest projects, `opus-4.8` at half the price for
+  most builds; the skill checks the running session model and asks you to switch on
+  mismatch.
+- **review.model** — `inherit`, or a cheaper model (`opus`, `sonnet`) to run routine
+  diff reviews in a subagent, with blockers escalating back to the lead.
+- **codex** — model/effort flags appended to every `codex exec` dispatch.
 
 ## Design principles
 

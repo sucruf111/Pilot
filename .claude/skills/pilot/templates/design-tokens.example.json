@@ -1,0 +1,17 @@
+{
+  "color": {
+    "background": "#0E0F13",
+    "surface": "#1A1C22",
+    "primary": "#4F7CFF",
+    "accent": "#FFB454",
+    "text": { "primary": "#F2F3F5", "secondary": "#9BA1AC" },
+    "semantic": { "success": "#3DDC84", "warning": "#FFB454", "error": "#FF5D5D" }
+  },
+  "spacing": { "xs": "4px", "sm": "8px", "md": "16px", "lg": "24px", "xl": "40px" },
+  "radius": { "sm": "6px", "md": "12px", "pill": "999px" },
+  "type": {
+    "display": { "family": "Fraunces", "sizes": ["32px", "40px"] },
+    "body": { "family": "Inter Tight", "sizes": ["14px", "16px"] }
+  },
+  "shadow": { "card": "0 4px 16px rgba(0,0,0,0.35)" }
+}

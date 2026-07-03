@@ -154,7 +154,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap">
     <div class="kicker">Division of labor</div>
     <h2>Two models, two jobs</h2>
-    <p class="lede">Pilot splits development the way a good team does: the expensive, careful thinker makes the decisions; the fast builder writes the code. <strong>Fable owns <em>what</em> and <em>whether it's right</em>. Codex owns <em>how</em>.</strong></p>
+    <p class="lede">Pilot splits development the way a good team does: the expensive, careful thinker makes the decisions; the fast builder writes the code. <strong>The lead owns <em>what</em> and <em>whether it's right</em>. Codex owns <em>how</em>.</strong> Both seats are <a href="#models">configurable</a> — lead with Fable 5 or Opus 4.8, and route routine reviews to a cheaper model.</p>
     <div class="roles">
       <div class="card">
         <h3>Claude Fable 5 <span class="chip lead">team lead</span></h3>
@@ -301,14 +301,39 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <span class="c"># then, inside a Claude Code session in your project:</span>
 <span class="p">&gt;</span> /pilot
 </pre>
-    <h2 style="margin-top:48px">Pick your models</h2>
-    <p class="lede" style="margin-bottom:20px"><code>docs/pilot/config.json</code> controls who does what, at what depth — <strong>Fable 5</strong> for the hardest projects or <strong>Opus 4.8</strong> at half the price as lead, a cheaper model for routine diff reviews (blockers escalate back to the lead), and the Codex model/effort used for every dispatch.</p>
+    <h2 style="margin-top:48px" id="models">Pick your models &amp; effort</h2>
+    <p class="lede" style="margin-bottom:20px">Every role in the pipeline is configurable per project via <code>docs/pilot/config.json</code> — which Claude leads, which model reviews, and how hard each one thinks. You are never locked to one model.</p>
+    <table style="margin-bottom:24px">
+      <tr><th>Setting</th><th>Options</th><th>Guidance</th></tr>
+      <tr>
+        <td><code>lead.model</code></td>
+        <td class="desc"><code>fable-5</code> · <code>opus-4.8</code></td>
+        <td class="desc">Fable 5 for the hardest, most ambiguous projects; Opus&nbsp;4.8 at half the price is excellent for most builds. Pilot checks your running session model and asks you to switch on mismatch.</td>
+      </tr>
+      <tr>
+        <td><code>lead.*_effort</code></td>
+        <td class="desc"><code>medium</code> · <code>high</code> · <code>xhigh</code> · <code>max</code></td>
+        <td class="desc">Set separately for planning and review — <code>xhigh</code> for the roadmap/design pass, <code>high</code> for reviews is the sweet spot.</td>
+      </tr>
+      <tr>
+        <td><code>review.model</code></td>
+        <td class="desc"><code>inherit</code> · <code>opus</code> · <code>sonnet</code> · <code>haiku</code></td>
+        <td class="desc">Run routine diff reviews on a cheaper model in a subagent — blockers and architectural questions escalate back to the lead. The biggest cost lever in Phase&nbsp;3.</td>
+      </tr>
+      <tr>
+        <td><code>codex.*</code></td>
+        <td class="desc">any Codex model · <code>reasoning_effort</code> up to <code>xhigh</code></td>
+        <td class="desc">Applied to every <code>codex exec</code> dispatch.</td>
+      </tr>
+    </table>
 <pre class="shell">
+<span class="c">// docs/pilot/config.json — created at preflight, edit anytime</span>
 {
-  <span class="c">"lead"</span>:   { "model": <span class="p">"fable-5"</span>,  "planning_effort": <span class="p">"xhigh"</span>, "review_effort": <span class="p">"high"</span> },
-  <span class="c">"review"</span>: { "model": <span class="p">"inherit"</span>,  "escalate_blockers_to_lead": true },
+  <span class="c">"lead"</span>:   { "model": <span class="p">"opus-4.8"</span>, "planning_effort": <span class="p">"xhigh"</span>, "review_effort": <span class="p">"high"</span> },
+  <span class="c">"review"</span>: { "model": <span class="p">"sonnet"</span>,   "escalate_blockers_to_lead": true },
   <span class="c">"codex"</span>:  { "model": <span class="p">"gpt-5.5"</span>,  "reasoning_effort": <span class="p">"xhigh"</span> }
 }
+<span class="c">// ↑ example: Opus 4.8 leads, Sonnet handles routine reviews, blockers escalate</span>
 </pre>
     <h2 style="margin-top:48px">Commands</h2>
     <table>

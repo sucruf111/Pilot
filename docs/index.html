@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pilot — an AI team lead that ships your product</title>
+<meta name="description" content="Pilot is a development pipeline where Claude Fable 5 acts as team lead and reviewer, and Codex acts as the coding agent. Plan, design, build and review on autopilot.">
+<meta property="og:title" content="Pilot — an AI team lead that ships your product">
+<meta property="og:description" content="Fable plans and reviews. Codex writes the code. You approve the design and watch the roadmap check itself off.">
+<meta property="og:image" content="https://sucruf111.github.io/Pilot/assets/header.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E0F13; --surface:#1A1C22; --surface2:#22252d;
+  --blue:#4F7CFF; --amber:#FFB454;
+  --text:#F2F3F5; --muted:#9BA1AC; --line:#2c3039;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:"Inter Tight",system-ui,sans-serif;
+  font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--amber);color:var(--bg)}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero img.banner{display:block;width:100%;max-height:420px;object-fit:cover;object-position:center}
+.hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,15,19,0) 40%,rgba(14,15,19,.92) 92%)}
+.hero .inner{position:absolute;left:0;right:0;bottom:0;padding-bottom:36px}
+h1.brand{
+  font-family:Fraunces,serif;font-weight:600;font-size:clamp(44px,7vw,72px);
+  letter-spacing:-.02em;line-height:1.05;
+}
+h1.brand .dot{color:var(--amber)}
+.tagline{font-size:clamp(17px,2.4vw,21px);color:var(--muted);max-width:620px;margin-top:10px}
+.tagline em{font-family:Fraunces,serif;font-style:italic;color:var(--text)}
+.cta-row{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.btn{
+  display:inline-block;padding:10px 20px;border-radius:999px;font-weight:600;font-size:15px;
+  border:1px solid var(--line);color:var(--text);background:var(--surface);transition:.15s
+}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:#6089ff}
+
+/* sections */
+section{padding:64px 0}
+section+section{border-top:1px solid var(--line)}
+h2{
+  font-family:Fraunces,serif;font-weight:600;font-size:clamp(28px,4vw,38px);
+  letter-spacing:-.01em;margin-bottom:8px
+}
+.kicker{
+  font-family:"JetBrains Mono",monospace;font-size:12.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:14px
+}
+.lede{color:var(--muted);max-width:680px;margin-bottom:36px}
+.lede strong{color:var(--text)}
+
+/* roles */
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.card h3{font-size:19px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.chip{font-family:"JetBrains Mono",monospace;font-size:11px;padding:3px 9px;border-radius:999px;letter-spacing:.06em}
+.chip.lead{background:rgba(79,124,255,.16);color:var(--blue)}
+.chip.coder{background:rgba(255,180,84,.14);color:var(--amber)}
+.card p{color:var(--muted);font-size:15.5px}
+.card ul{margin:12px 0 0 18px;color:var(--muted);font-size:15.5px}
+.card li{margin:4px 0}
+.card li::marker{color:var(--amber)}
+
+/* phases */
+.phases{display:grid;gap:0;counter-reset:phase}
+.phase{
+  display:grid;grid-template-columns:64px 1fr;gap:20px;padding:24px 0;
+  border-bottom:1px dashed var(--line)
+}
+.phase:last-child{border-bottom:none}
+.phase .num{
+  font-family:Fraunces,serif;font-size:40px;font-weight:600;color:var(--surface2);
+  -webkit-text-stroke:1px var(--muted);line-height:1
+}
+.phase h3{font-size:19px;margin-bottom:4px}
+.phase h3 .gate{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--amber);
+  border:1px solid rgba(255,180,84,.4);border-radius:999px;padding:2px 8px;margin-left:8px;vertical-align:2px}
+.phase p{color:var(--muted);font-size:15.5px;max-width:640px}
+.phase .artifact{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--blue);margin-top:6px;display:block}
+
+/* loop */
+.loop{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px;overflow-x:auto
+}
+.loop pre{font-size:14px;line-height:1.9;color:var(--muted);min-width:520px}
+.loop .b{color:var(--blue)} .loop .a{color:var(--amber)} .loop .t{color:var(--text)}
+
+/* principles */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid3 .card h3{font-size:16.5px}
+
+/* install */
+pre.shell{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 24px;font-size:14px;line-height:1.8;overflow-x:auto;color:var(--text)
+}
+pre.shell .c{color:var(--muted)} pre.shell .p{color:var(--amber);user-select:none}
+
+/* commands */
+table{width:100%;border-collapse:collapse;font-size:15.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+th{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+td code{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:13.5px;white-space:nowrap}
+td.desc{color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media(max-width:720px){
+  .roles,.grid3{grid-template-columns:1fr}
+  .phase{grid-template-columns:44px 1fr;gap:14px}
+  .phase .num{font-size:30px}
+  .hero .inner{position:static;padding:28px 0 8px}
+  .hero .scrim{display:none}
+  .hero img.banner{max-height:220px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img class="banner" src="assets/header.png" alt="Two figures on a flight deck at dusk, guiding glowing git-branch light trails toward a shared horizon">
+  <div class="scrim"></div>
+  <div class="inner wrap">
+    <h1 class="brand">Pilot<span class="dot">.</span></h1>
+    <p class="tagline">An AI <em>team lead</em> that plans, directs and reviews — while an AI <em>coding agent</em> does the typing. You approve the design; the roadmap checks itself off.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="https://github.com/sucruf111/Pilot">View on GitHub</a>
+      <a class="btn" href="#install">Install the skill</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Division of labor</div>
+    <h2>Two models, two jobs</h2>
+    <p class="lede">Pilot splits development the way a good team does: the expensive, careful thinker makes the decisions; the fast builder writes the code. <strong>Fable owns <em>what</em> and <em>whether it's right</em>. Codex owns <em>how</em>.</strong></p>
+    <div class="roles">
+      <div class="card">
+        <h3>Claude Fable 5 <span class="chip lead">team lead</span></h3>
+        <p>Runs inside Claude Code. Never writes application code.</p>
+        <ul>
+          <li>Interviews you and writes the product &amp; design briefs</li>
+          <li>Designs the system: tokens, components, roadmap</li>
+          <li>Writes one precise work order per task, just in time</li>
+          <li>Reviews every diff against the spec before it merges</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Codex CLI <span class="chip coder">coding agent</span></h3>
+        <p>Dispatched headlessly with <code>codex exec</code>, one branch per task.</p>
+        <ul>
+          <li>Implements the work order — code, tests, assets</li>
+          <li>Generates the visual concepts you choose between</li>
+          <li>Fixes what the free gate or the review flags</li>
+          <li>Decides implementation details itself — no micromanaging</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">The pipeline</div>
+    <h2>Four phases, two human gates</h2>
+    <p class="lede">All state lives in files on disk — close the session anytime, <code>/pilot</code> resumes exactly where it stopped.</p>
+    <div class="phases">
+      <div class="phase">
+        <div class="num">0</div>
+        <div>
+          <h3>Goal iteration</h3>
+          <p>Fable interviews you: what the product is, who it's for, what's essential versus later. Iterates until every scope decision is defensible.</p>
+          <span class="artifact">→ docs/PRODUCT_BRIEF.md</span>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num">1</div>
+        <div>
+          <h3>Brand &amp; design <span class="gate">human gate</span></h3>
+          <p>Fable writes a design brief with 2–3 visual directions; Codex builds the concepts. Everything stops until you pick one.</p>
+          <span class="artifact">→ docs/DESIGN_BRIEF.md · docs/design/concepts/</span>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num">2</div>
+        <div>
+          <h3>Design system &amp; roadmap</h3>
+          <p>The highest-leverage pass: a design system document, a machine-readable <code>design-tokens.json</code>, and a roadmap of vertical slices — foundation task first, so every later screen composes checked components. Includes a cost estimate before anything is built.</p>
+          <span class="artifact">→ DESIGN_SYSTEM.md · design-tokens.json · ROADMAP.md</span>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num">3</div>
+        <div>
+          <h3>Autopilot</h3>
+          <p>Task by task: spec → implement → mechanical gate → review → merge. Interrupts you only for gated decisions, repeated failures, or roadmap changes.</p>
+          <span class="artifact">→ specs/ · reviews/ · LESSONS.md · checked-off ROADMAP.md</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Phase 3, per task</div>
+    <h2>The autopilot cycle</h2>
+    <p class="lede">A failing build never reaches (or bills) the reviewer — mechanical checks run first, for free.</p>
+    <div class="loop">
+<pre>
+<span class="b">Fable</span>  writes a grounded spec from the <span class="t">actual codebase</span>      <span class="a">~$0.50</span>
+  │
+<span class="a">Codex</span>  implements on branch <span class="t">pilot/&lt;task&gt;</span>
+  │
+<span class="t">gate</span>   build · tests · token-lint · file-boundary check     <span class="a">$0</span>
+  │        └─ fails? → straight back to Codex, twice max
+<span class="b">Fable</span>  reviews the <span class="t">diff</span> against spec + design system       <span class="a">~$0.35</span>
+  │        └─ request_changes? → findings back to Codex
+<span class="t">merge</span>  PR created · roadmap ✓ · lesson recorded → <span class="b">next task</span>
+</pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Why it stays consistent &amp; cheap</div>
+    <h2>Design principles</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3>Consistency by construction</h3>
+        <p>Every color and spacing value must come from <code>design-tokens.json</code> — a lint script rejects violations. A $0 grep beats a $0.50 model check.</p>
+      </div>
+      <div class="card">
+        <h3>Just-in-time specs</h3>
+        <p>Task detail is written when the task is dispatched, grounded in the real codebase — never upfront, never stale.</p>
+      </div>
+      <div class="card">
+        <h3>Vertical slices</h3>
+        <p>Data + UI + tests per task, not page-by-page. Independently reviewable, independently shippable.</p>
+      </div>
+      <div class="card">
+        <h3>Free gate before paid review</h3>
+        <p>Build, tests and lint run before any model reviews the diff. Roughly half of all fix rounds cost nothing.</p>
+      </div>
+      <div class="card">
+        <h3>Diffs, not repos</h3>
+        <p>The reviewer reads the change against the spec — never the whole codebase. Cached context does the rest.</p>
+      </div>
+      <div class="card">
+        <h3>A memory that compounds</h3>
+        <p>Every review appends lessons to <code>LESSONS.md</code>, which rides in every future spec. The pipeline gets better as it runs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <div class="kicker">Get started</div>
+    <h2>Install in one copy</h2>
+    <p class="lede">Requires <a href="https://claude.com/claude-code">Claude Code</a> and the <a href="https://github.com/openai/codex">Codex CLI</a>, inside a git repository.</p>
+<pre class="shell">
+<span class="c"># into one project</span>
+<span class="p">$</span> git clone https://github.com/sucruf111/Pilot
+<span class="p">$</span> mkdir -p your-app/.claude/skills
+<span class="p">$</span> cp -R Pilot/.claude/skills/pilot your-app/.claude/skills/pilot
+
+<span class="c"># — or available in every project</span>
+<span class="p">$</span> cp -R Pilot/.claude/skills/pilot ~/.claude/skills/pilot
+
+<span class="c"># then, inside a Claude Code session in your project:</span>
+<span class="p">&gt;</span> /pilot
+</pre>
+    <h2 style="margin-top:48px">Commands</h2>
+    <table>
+      <tr><th>Command</th><th>What it does</th></tr>
+      <tr><td><code>/pilot</code></td><td class="desc">Resume wherever the project state says, run continuously</td></tr>
+      <tr><td><code>/pilot next</code></td><td class="desc">Exactly one task cycle, then stop — for building trust</td></tr>
+      <tr><td><code>/pilot status</code></td><td class="desc">Current phase, task, blockers and cost so far</td></tr>
+      <tr><td><code>/pilot estimate</code></td><td class="desc">Project the Fable-side cost of the remaining roadmap</td></tr>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Pilot — Fable leads, Codex builds.</span>
+    <span><a href="https://github.com/sucruf111/Pilot">github.com/sucruf111/Pilot</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,5 +1,9 @@
 # Pilot
 
+![Pilot — Fable leads, Codex builds](docs/assets/header.png)
+
+**[→ Project page](https://sucruf111.github.io/Pilot/)**
+
 A development pipeline where **Claude Fable 5** (via Claude Code) acts as team lead,
 project manager, and reviewer, and **Codex CLI** acts as the coding agent.
 
